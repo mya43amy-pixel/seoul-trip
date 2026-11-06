@@ -74,7 +74,7 @@
             <div class="flex justify-center items-center gap-2 overflow-x-auto no-scrollbar px-1">
                 <div v-for="(d, i) in dateConfig" :key="i" @click="selectedDay = (i+1)" 
                      :class="selectedDay === (i+1) ? 'bg-white text-[#4F637D] shadow-md' : 'bg-white/20 text-white'" 
-                     class="min-w-[70px] h-16 rounded-[20px] flex flex-col items-center justify-center cursor-pointer transition-all">
+                     class="min-w-[65px] h-16 rounded-[20px] flex flex-col items-center justify-center cursor-pointer transition-all">
                     <span class="date-btn-text">{{d.date}}</span>
                     <span class="date-btn-text">{{d.day}}</span>
                 </div>
@@ -293,7 +293,7 @@
                     showModal: false, showBillModal: false, showShopModal: false, showSummaryModal: false, showMemberModal: false, showNoteModal: false,
                     isEditing: false, isEditBill: false, isEditShop: false, isEditNote: false, editIndex: null, tempSummary: '', memberInput: '',
                     members: ['Bibi'], collapsed: { '食物': true, '購物': true, '美妝': true, '其他': true },
-                    dateConfig: [{date: '12/11', day: '五'}, {date: '12/12', day: '六'}, {date: '12/13', day: '日'}, {date: '12/14', day: '一'}],
+                    dateConfig: [{date: '11', day: '五'}, {date: '12', day: '六'}, {date: '13', day: '日'}, {date: '14', day: '一'}],
                     form: { time: '09:00', place: '', note: '', transitType: '', transitTime: '', transitUnit: 'm', stayTime: '', stayUnit: 'h', mapUrl: '' },
                     billForm: { itemName: '', amount: '', method: '刷卡', payer: 'Bibi', category: '食物', type: 'expense', note: '' },
                     shopForm: { name: '', price: 0, category: '購物', imgBase64: '', isBought: false, note: '' },
