@@ -32,7 +32,7 @@
         [v-cloak] { display: none; }
         .summary-box { background-color: #eef2f6; border: 1px solid #d8e2ec; padding: 16px 20px; border-radius: 16px; }
         .date-btn-text { font-size: 15px; font-weight: 800; }
-        .memo-item { background: white; border-radius: 18px; padding: 16px; border: 1px solid #eef2f6; margin-bottom: 12px; }
+        .memo-item { background: white; border-radius: 18px; padding: 18px; border: 1px solid #eef2f6; margin-bottom: 14px; }
         .chart-container { position: relative; height: 180px; width: 100%; }
         .export-mode #header-area { border-radius: 0; }
         .export-mode nav, .export-mode .export-btn, .export-mode button { display: none !important; }
@@ -197,16 +197,16 @@
                         <i class="fas fa-chevron-down text-[10px] text-gray-400 transition-transform" :class="{'rotate-180': !collapsed[cat]}"></i>
                     </div>
                     <div v-show="!collapsed[cat]">
-                        <draggable v-model="shoppingList" item-key="id" handle=".handle" :delay="150" :touch-start-threshold="10" @end="sync" class="grid grid-cols-2 gap-3">
+                        <draggable v-model="shoppingList" item-key="id" handle=".handle" :delay="150" :touch-start-threshold="10" @end="sync" class="grid grid-cols-2 gap-3.5">
                             <template #item="{element}">
                                 <div v-if="element.category === cat" class="card-pop overflow-hidden border border-gray-50 relative flex flex-col p-0" :class="{'card-bought': element.isBought}">
                                     <div @click="editShopItem(element.id)" class="aspect-square bg-gray-50 flex items-center justify-center overflow-hidden">
                                         <img v-if="element.imgBase64" :src="element.imgBase64" class="w-full h-full object-cover"><i v-else class="fas fa-shopping-bag text-gray-300 text-2xl"></i>
                                     </div>
-                                    <div class="p-3.5">
-                                        <h4 class="font-bold text-gray-800 text-xs truncate">{{element.name}}</h4>
-                                        <p v-if="element.price > 0" class="teal-text font-black text-xs mt-1">₩ {{element.price.toLocaleString()}}</p>
-                                        <p v-if="element.note" class="text-[10px] text-gray-500 mt-1 truncate font-medium">{{element.note}}</p>
+                                    <div class="p-4 space-y-1">
+                                        <h4 class="font-bold text-gray-800 text-xs truncate leading-snug">{{element.name}}</h4>
+                                        <p v-if="element.price > 0" class="teal-text font-black text-xs pt-0.5">₩ {{element.price.toLocaleString()}}</p>
+                                        <p v-if="element.note" class="text-[11px] text-gray-500 pt-0.5 truncate font-medium">{{element.note}}</p>
                                     </div>
                                     <div class="handle absolute text-gray-400 cursor-move"><i class="fas fa-bars text-[10px]"></i></div>
                                     <button @click.stop="toggleBought(element.id)" class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full flex items-center justify-center shadow-md bg-white/90" :class="element.isBought ? 'teal-theme text-white' : 'text-gray-300'"><i class="fas fa-check text-[10px]"></i></button>
@@ -220,18 +220,17 @@
                 <div class="pt-6 border-t border-gray-100">
                     <h3 class="font-black text-gray-700 text-sm px-2 mb-4 uppercase tracking-widest">Memo / Links</h3>
                     <div v-if="travelNotes && travelNotes.length > 0">
-                        <draggable v-model="travelNotes" item-key="id" handle=".note-handle" :delay="150" @end="sync" class="space-y-3">
+                        <draggable v-model="travelNotes" item-key="id" handle=".note-handle" :delay="150" @end="sync" class="space-y-3.5">
                             <template #item="{element, index}">
-                                <div class="memo-item shadow-sm flex items-center gap-3">
+                                <div class="memo-item shadow-sm flex items-center gap-3.5">
                                     <div class="note-handle text-gray-300 cursor-move px-1"><i class="fas fa-bars text-xs"></i></div>
-                                    <div @click="openNoteEdit(index)" class="flex-1 min-w-0">
-                                        <div v-if="element.imgBase64" class="mb-3 rounded-xl overflow-hidden bg-gray-50 max-h-48 flex items-center justify-center">
+                                    <div @click="openNoteEdit(index)" class="flex-1 min-w-0 cursor-pointer">
+                                        <div v-if="element.imgBase64" class="mb-3.5 rounded-2xl overflow-hidden bg-gray-50 aspect-square w-full flex items-center justify-center">
                                             <img :src="element.imgBase64" class="w-full h-full object-cover">
                                         </div>
-                                        <p class="text-sm text-gray-700 whitespace-pre-wrap font-medium leading-relaxed">{{element.content}}</p>
-                                        <a v-if="element.tag && element.tag.trim()" :href="element.tag" target="_blank" @click.stop class="text-[11px] teal-text font-bold mt-2 block break-all"><i class="fas fa-link mr-1"></i>{{element.tag}}</a>
+                                        <p class="text-sm text-gray-700 whitespace-pre-wrap font-medium leading-relaxed py-0.5">{{element.content}}</p>
+                                        <a v-if="element.tag && element.tag.trim()" :href="element.tag" target="_blank" @click.stop class="text-xs teal-text font-bold mt-2.5 block break-all"><i class="fas fa-link mr-1"></i>{{element.tag}}</a>
                                     </div>
-                                    <button @click="deleteNote(index)" class="text-gray-300 text-xs px-2"><i class="fas fa-times"></i></button>
                                 </div>
                             </template>
                         </draggable>
@@ -425,7 +424,6 @@
                     this.sync(); 
                     this.showNoteModal = false; 
                 },
-                deleteNote(idx) { if(confirm('刪除 MEMO？')) { this.travelNotes.splice(idx, 1); this.sync(); } },
                 deleteNoteItem() { if(confirm('刪除 MEMO？')) { this.travelNotes.splice(this.editIndex, 1); this.sync(); this.showNoteModal = false; } },
                 exportImage() {
                     const appElement = document.getElementById('app');
