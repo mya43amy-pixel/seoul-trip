@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #f4f6f8; -webkit-tap-highlight-color: transparent; letter-spacing: 0.01em; }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #f4f6f8; -webkit-tap-highlight-color: transparent; letter-spacing: 0.02em; line-height: 1.6; }
         .teal-theme { background-color: #4F637D; }
         .teal-text { color: #4F637D; }
         .active-tab { color: #4F637D !important; font-weight: bold; }
@@ -32,7 +32,7 @@
         [v-cloak] { display: none; }
         .summary-box { background-color: #eef2f6; border: 1px solid #d8e2ec; }
         .date-btn-text { font-size: 15px; font-weight: 800; }
-        .memo-item { background: white; border-radius: 18px; padding: 15px; border: 1px solid #eef2f6; margin-bottom: 10px; }
+        .memo-item { background: white; border-radius: 18px; padding: 16px; border: 1px solid #eef2f6; margin-bottom: 12px; }
         .chart-container { position: relative; height: 180px; width: 100%; }
         .export-mode #header-area { border-radius: 0; }
         .export-mode nav, .export-mode .export-btn, .export-mode button { display: none !important; }
@@ -97,8 +97,8 @@
                                 <span class="text-[12px] font-black px-2.5 py-1 bg-slate-100 teal-text rounded-md">{{item.time}}</span>
                                 <a v-if="item.mapUrl" :href="item.mapUrl" target="_blank" @click.stop class="w-7 h-7 flex items-center justify-center bg-gray-100 rounded-full text-xs teal-text"><i class="fas fa-link"></i></a>
                             </div>
-                            <h3 class="font-bold text-lg mt-2.5 text-gray-800">{{item.place}}</h3>
-                            <p class="text-[13px] text-gray-400 mt-1.5 whitespace-pre-wrap">{{item.note}}</p>
+                            <h3 class="font-bold text-base mt-2.5 text-gray-800 leading-snug">{{item.place}}</h3>
+                            <p class="text-[13px] text-gray-500 mt-2 whitespace-pre-wrap leading-relaxed">{{item.note}}</p>
                         </div>
                         <div v-if="item.stayTime" class="text-right">
                             <div class="text-[10px] bg-gray-50 px-2 py-1 rounded-md text-gray-400 font-bold"><i class="far fa-clock mr-1"></i>停留 {{item.stayTime}}{{item.stayUnit}}</div>
@@ -164,9 +164,9 @@
                                         <p class="text-[10px] text-gray-400 font-bold mt-1">NT$ {{Math.round(element.amount * rate).toLocaleString()}}</p>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-2 mt-1">
+                                <div class="flex items-center gap-2 mt-1.5">
                                     <span class="text-[9px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded font-bold">{{element.payer}}</span>
-                                    <p v-if="element.note" class="text-[10px] text-gray-400 truncate flex-1 font-medium">{{element.note}}</p>
+                                    <p v-if="element.note" class="text-[11px] text-gray-500 truncate flex-1 font-medium">{{element.note}}</p>
                                 </div>
                             </div>
                         </div>
@@ -176,8 +176,8 @@
                 <div class="card-pop p-6 mt-8">
                     <h3 class="text-sm font-black text-gray-700 mb-6 text-center uppercase tracking-widest">消費佔比分析</h3>
                     <div class="chart-container mb-6"><canvas id="expenseChart"></canvas></div>
-                    <div class="space-y-2">
-                        <div v-for="stat in categoryStats" :key="stat.name" class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                    <div class="space-y-2.5">
+                        <div v-for="stat in categoryStats" :key="stat.name" class="flex justify-between items-center text-xs border-b border-gray-50 pb-2.5">
                             <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full" :style="{backgroundColor: stat.color}"></span><span class="font-bold text-gray-600">{{stat.name}}</span></div>
                             <div class="text-right"><span class="font-black text-gray-800">₩ {{stat.amount.toLocaleString()}}</span><span class="ml-2 text-gray-400">({{stat.percent}}%)</span></div>
                         </div>
@@ -205,8 +205,8 @@
                                     </div>
                                     <div class="p-3">
                                         <h4 class="font-bold text-gray-800 text-xs truncate">{{element.name}}</h4>
-                                        <p v-if="element.price > 0" class="teal-text font-black text-xs">₩ {{element.price.toLocaleString()}}</p>
-                                        <p v-if="element.note" class="text-[9px] text-gray-400 mt-1 truncate font-medium">{{element.note}}</p>
+                                        <p v-if="element.price > 0" class="teal-text font-black text-xs mt-1">₩ {{element.price.toLocaleString()}}</p>
+                                        <p v-if="element.note" class="text-[10px] text-gray-500 mt-1 truncate font-medium">{{element.note}}</p>
                                     </div>
                                     <div class="handle absolute text-gray-400 cursor-move"><i class="fas fa-bars text-[10px]"></i></div>
                                     <button @click.stop="toggleBought(element.id)" class="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center shadow-md bg-white/90" :class="element.isBought ? 'teal-theme text-white' : 'text-gray-300'"><i class="fas fa-check text-[10px]"></i></button>
@@ -222,13 +222,16 @@
                     <div v-if="travelNotes && travelNotes.length > 0">
                         <draggable v-model="travelNotes" item-key="id" handle=".note-handle" :delay="150" @end="sync" class="space-y-3">
                             <template #item="{element, index}">
-                                <div class="memo-item shadow-sm flex items-start gap-3">
-                                    <div class="note-handle text-gray-300 mt-1 cursor-move px-2"><i class="fas fa-bars text-xs"></i></div>
-                                    <div @click="openNoteEdit(index)" class="flex-1">
-                                        <p class="text-sm text-gray-600 whitespace-pre-wrap font-medium">{{element.content}}</p>
-                                        <a v-if="element.tag && element.tag.trim()" :href="element.tag" target="_blank" @click.stop class="text-[10px] teal-text font-bold mt-2 block break-all"><i class="fas fa-link mr-1"></i>{{element.tag}}</a>
+                                <div class="memo-item shadow-sm flex items-center gap-3">
+                                    <div class="note-handle text-gray-300 cursor-move px-1"><i class="fas fa-bars text-xs"></i></div>
+                                    <div @click="openNoteEdit(index)" class="flex-1 min-w-0">
+                                        <div v-if="element.imgBase64" class="mb-3 rounded-xl overflow-hidden bg-gray-50 max-h-48 flex items-center justify-center">
+                                            <img :src="element.imgBase64" class="w-full h-full object-cover">
+                                        </div>
+                                        <p class="text-sm text-gray-700 whitespace-pre-wrap font-medium leading-relaxed">{{element.content}}</p>
+                                        <a v-if="element.tag && element.tag.trim()" :href="element.tag" target="_blank" @click.stop class="text-[11px] teal-text font-bold mt-2 block break-all"><i class="fas fa-link mr-1"></i>{{element.tag}}</a>
                                     </div>
-                                    <button @click="deleteNote(index)" class="text-gray-300 text-xs"><i class="fas fa-times"></i></button>
+                                    <button @click="deleteNote(index)" class="text-gray-300 text-xs px-2"><i class="fas fa-times"></i></button>
                                 </div>
                             </template>
                         </draggable>
@@ -273,7 +276,27 @@
             <div class="bg-gray-50 p-5 rounded-[24px]"><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-black text-gray-400 mb-2">交通</label><div class="flex gap-1 mb-3"><button v-for="t in ['walk','car','bus','subway','plane']" :key="t" @click="toggleTransit(t)" :class="form.transitType.includes(t) ? 'teal-theme text-white' : 'bg-white text-gray-400'" class="w-8 h-8 rounded-full flex items-center justify-center text-xs shadow-sm"><i :class="getTransitIcon(t)"></i></button></div><div class="flex gap-1"><input type="number" v-model="form.transitTime" class="input-round p-2 text-xs w-16 text-center"><select v-model="form.transitUnit" class="input-round p-2 text-xs"><option value="m">m</option><option value="h">h</option></select></div></div><div><label class="block text-xs font-black text-gray-400 mb-2">停留</label><div class="flex gap-1 mt-11"><input type="number" v-model="form.stayTime" class="input-round p-2 text-xs w-16 text-center"><select v-model="form.stayUnit" class="input-round p-2 text-xs"><option value="m">m</option><option value="h">h</option></select></div></div></div></div><div><label class="block text-xs font-black text-gray-400 mb-2">連結</label><input v-model="form.mapUrl" class="input-round"></div><div><label class="block text-xs font-black text-gray-400 mb-2">備註</label><textarea v-model="form.note" class="input-round h-24"></textarea></div><div class="flex gap-3 pt-4"><button v-if="isEditing" @click="deleteItem" class="flex-1 py-4 bg-red-50 text-red-400 rounded-2xl font-bold">刪除</button><button @click="saveForm" class="flex-[2] py-4 teal-theme text-white rounded-2xl font-black">儲存</button></div></div></div></div>
         <div v-if="showMemberModal" class="fixed inset-0 bg-black/60 z-[70] flex items-center justify-center p-6"><div class="bg-white w-full rounded-[35px] p-8 shadow-2xl"><h3 class="font-black mb-6 text-center text-gray-800">編輯旅伴 👥</h3><input v-model="memberInput" class="input-round text-center mb-4"><div class="flex gap-3"><button @click="showMemberModal = false" class="flex-1 py-4 bg-gray-50 text-gray-400 rounded-2xl font-bold">取消</button><button @click="updateMembers" class="flex-1 py-4 teal-theme text-white rounded-2xl font-black">更新</button></div></div></div>
         <div v-if="showShopModal" class="fixed inset-0 bg-black/60 z-[60] flex items-end"><div class="bg-white w-full rounded-t-[40px] p-8 pb-12 overflow-y-auto max-h-[90vh]"><div class="flex justify-between mb-8"><h3 class="text-xl font-black">待買 🛍️</h3><button @click="showShopModal = false" class="text-gray-400"><i class="fas fa-times"></i></button></div><div class="space-y-4"><div class="flex justify-center"><label class="w-24 h-24 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 flex items-center justify-center cursor-pointer overflow-hidden"><img v-if="shopForm.imgBase64" :src="shopForm.imgBase64" class="w-full h-full object-cover"><i v-else class="fas fa-camera text-gray-300"></i><input type="file" @change="handleFileUpload" class="hidden" accept="image/*"></label></div><input v-model="shopForm.name" placeholder="想買什麼？" class="input-round font-bold"><input v-model="shopForm.price" type="number" class="input-round teal-text font-black"><select v-model="shopForm.category" class="input-round text-xs font-bold"><option v-for="c in ['食物', '購物', '美妝', '其他']" :key="c" :value="c">{{c}}</option></select><textarea v-model="shopForm.note" class="input-round h-20 text-xs font-medium"></textarea><div class="flex gap-4 mt-8"><button v-if="isEditShop" @click="deleteShopItem" class="flex-1 py-4 bg-red-50 text-red-400 rounded-2xl font-bold">刪除</button><button @click="saveShopItem" class="flex-[2] py-4 teal-theme text-white rounded-2xl font-black">儲存</button></div></div></div></div>
-        <div v-if="showNoteModal" class="fixed inset-0 bg-black/60 z-[60] flex items-end"><div class="bg-white w-full rounded-t-[40px] p-8 pb-12 overflow-y-auto max-h-[80vh]"><h3 class="font-black mb-6 text-lg">MEMO</h3><textarea v-model="noteForm.content" class="input-round text-sm mb-4 font-medium" rows="6"></textarea><input v-model="noteForm.tag" class="input-round text-xs mb-4 font-medium" placeholder="連結"><div class="flex gap-4"><button @click="showNoteModal = false" class="flex-1 py-4 bg-gray-100 rounded-2xl font-bold">取消</button><button @click="saveNote" class="flex-[2] py-4 teal-theme text-white rounded-2xl font-black">儲存</button></div></div></div>
+        
+        <div v-if="showNoteModal" class="fixed inset-0 bg-black/60 z-[60] flex items-end">
+            <div class="bg-white w-full rounded-t-[40px] p-8 pb-12 overflow-y-auto max-h-[85vh]">
+                <h3 class="font-black mb-6 text-lg">MEMO</h3>
+                <div class="flex justify-center mb-4">
+                    <label class="w-24 h-24 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 flex items-center justify-center cursor-pointer overflow-hidden">
+                        <img v-if="noteForm.imgBase64" :src="noteForm.imgBase64" class="w-full h-full object-cover">
+                        <i v-else class="fas fa-camera text-gray-300"></i>
+                        <input type="file" @change="handleNoteFileUpload" class="hidden" accept="image/*">
+                    </label>
+                </div>
+                <textarea v-model="noteForm.content" placeholder="輸入筆記..." class="input-round text-sm mb-4 font-medium leading-relaxed" rows="5"></textarea>
+                <input v-model="noteForm.tag" class="input-round text-xs mb-6 font-medium" placeholder="連結 (選填)">
+                <div class="flex gap-4">
+                    <button v-if="isEditNote" @click="deleteNoteItem" class="flex-1 py-4 bg-red-50 text-red-400 rounded-2xl font-bold">刪除</button>
+                    <button @click="showNoteModal = false" class="flex-1 py-4 bg-gray-100 text-gray-500 rounded-2xl font-bold" v-if="!isEditNote">取消</button>
+                    <button @click="saveNote" class="flex-[2] py-4 teal-theme text-white rounded-2xl font-black">儲存</button>
+                </div>
+            </div>
+        </div>
+
         <div v-if="showSummaryModal" class="fixed inset-0 bg-black/60 z-[70] flex items-center justify-center p-6"><div class="bg-white w-full rounded-[35px] p-8 shadow-2xl"><h3 class="text-lg font-black text-center mb-6">今日主題</h3><input v-model="tempSummary" class="input-round text-center font-bold"><div class="flex gap-3 mt-8"><button @click="showSummaryModal = false" class="flex-1 py-4 bg-gray-50 text-gray-400 rounded-2xl font-bold">取消</button><button @click="saveSummary" class="flex-1 py-4 teal-theme text-white rounded-2xl font-black">儲存</button></div></div></div>
 
     </div>
@@ -305,7 +328,7 @@
                     form: { time: '09:00', place: '', note: '', transitType: '', transitTime: '', transitUnit: 'm', stayTime: '', stayUnit: 'h', mapUrl: '' },
                     billForm: { itemName: '', amount: '', method: '刷卡', payer: 'Bibi', category: '食物', type: 'expense', note: '' },
                     shopForm: { name: '', price: 0, category: '購物', imgBase64: '', isBought: false, note: '' },
-                    noteForm: { content: '', tag: '' },
+                    noteForm: { content: '', tag: '', imgBase64: '' },
                     itinerary: {1:[], 2:[], 3:[], 4:[]}, bills: [], shoppingList: [], dailySummaries: {1:'', 2:'', 3:'', 4:''}, travelNotes: [],
                     convKRW: null, convTWD: null, rate: 0.024
                 }
@@ -392,16 +415,18 @@
                     } 
                 },
                 handleFileUpload(e) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = (f) => { this.shopForm.imgBase64 = f.target.result; }; reader.readAsDataURL(file); },
-                openNoteAdd() { this.isEditNote = false; this.noteForm = { content: '', tag: '', id: Date.now() }; this.showNoteModal = true; },
+                handleNoteFileUpload(e) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = (f) => { this.noteForm.imgBase64 = f.target.result; }; reader.readAsDataURL(file); },
+                openNoteAdd() { this.isEditNote = false; this.noteForm = { content: '', tag: '', imgBase64: '', id: Date.now() }; this.showNoteModal = true; },
                 openNoteEdit(idx) { this.isEditNote = true; this.editIndex = idx; this.noteForm = {...this.travelNotes[idx]}; this.showNoteModal = true; },
                 saveNote() { 
-                    if(!this.noteForm.content || this.noteForm.content.trim() === '') return;
+                    if((!this.noteForm.content || this.noteForm.content.trim() === '') && !this.noteForm.imgBase64) return;
                     if(this.isEditNote) this.travelNotes[this.editIndex] = {...this.noteForm}; 
                     else this.travelNotes.unshift({...this.noteForm}); 
                     this.sync(); 
                     this.showNoteModal = false; 
                 },
                 deleteNote(idx) { if(confirm('刪除 MEMO？')) { this.travelNotes.splice(idx, 1); this.sync(); } },
+                deleteNoteItem() { if(confirm('刪除 MEMO？')) { this.travelNotes.splice(this.editIndex, 1); this.sync(); this.showNoteModal = false; } },
                 exportImage() {
                     const appElement = document.getElementById('app');
                     appElement.classList.add('export-mode');
