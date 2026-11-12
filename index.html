@@ -21,18 +21,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #f4f6f8; -webkit-tap-highlight-color: transparent; letter-spacing: 0.02em; line-height: 1.6; }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #f4f6f8; -webkit-tap-highlight-color: transparent; letter-spacing: 0.025em; line-height: 1.65; }
         .teal-theme { background-color: #4F637D; }
         .teal-text { color: #4F637D; }
         .active-tab { color: #4F637D !important; font-weight: bold; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .input-round { border-radius: 12px; border: 1px solid #e2e8f0; padding: 12px; outline: none; background: #f8fafc; width: 100%; font-size: 14px; }
-        .card-pop { border-radius: 20px; background: white; box-shadow: 0 4px 12px rgba(79, 99, 125, 0.06); padding: 18px; }
+        .card-pop { border-radius: 20px; background: white; box-shadow: 0 4px 12px rgba(79, 99, 125, 0.06); padding: 20px; }
         .card-bought { opacity: 0.6; filter: grayscale(0.5); }
         [v-cloak] { display: none; }
         .summary-box { background-color: #eef2f6; border: 1px solid #d8e2ec; padding: 16px 20px; border-radius: 16px; }
         .date-btn-text { font-size: 15px; font-weight: 800; }
-        .memo-item { background: white; border-radius: 18px; padding: 18px; border: 1px solid #eef2f6; margin-bottom: 14px; }
+        .memo-item { background: white; border-radius: 18px; padding: 20px; border: 1px solid #eef2f6; margin-bottom: 14px; }
         .chart-container { position: relative; height: 180px; width: 100%; }
         .export-mode #header-area { border-radius: 0; }
         .export-mode nav, .export-mode .export-btn, .export-mode button { display: none !important; }
@@ -93,15 +93,15 @@
                     </div>
                     <div @click="openEditModal(index)" class="card-pop border border-gray-50 flex justify-between items-start mb-4">
                         <div class="flex-1 pr-3">
-                            <div class="flex items-center gap-2.5 mb-1.5">
+                            <div class="flex items-center gap-2.5 mb-2">
                                 <span class="text-[12px] font-black px-2.5 py-1 bg-slate-100 teal-text rounded-md">{{item.time}}</span>
                                 <a v-if="item.mapUrl" :href="item.mapUrl" target="_blank" @click.stop class="w-7 h-7 flex items-center justify-center bg-gray-100 rounded-full text-xs teal-text"><i class="fas fa-link"></i></a>
                             </div>
-                            <h3 class="font-bold text-base mt-2 text-gray-800 leading-snug">{{item.place}}</h3>
-                            <p class="text-[13px] text-gray-500 mt-2 whitespace-pre-wrap leading-relaxed">{{item.note}}</p>
+                            <h3 class="font-bold text-base mt-2.5 text-gray-800 leading-snug">{{item.place}}</h3>
+                            <p class="text-[13px] text-gray-500 mt-2.5 whitespace-pre-wrap leading-relaxed">{{item.note}}</p>
                         </div>
                         <div v-if="item.stayTime" class="text-right flex-shrink-0">
-                            <div class="text-[10px] bg-gray-50 px-2.5 py-1 rounded-md text-gray-400 font-bold"><i class="far fa-clock mr-1"></i>停留 {{item.stayTime}}{{item.stayUnit}}</div>
+                            <div class="text-[10px] bg-gray-50 px-2.5 py-1.5 rounded-md text-gray-400 font-bold"><i class="far fa-clock mr-1"></i>停留 {{item.stayTime}}{{item.stayUnit}}</div>
                         </div>
                     </div>
                 </div>
@@ -203,10 +203,10 @@
                                     <div @click="editShopItem(element.id)" class="aspect-square bg-gray-50 flex items-center justify-center overflow-hidden">
                                         <img v-if="element.imgBase64" :src="element.imgBase64" class="w-full h-full object-cover"><i v-else class="fas fa-shopping-bag text-gray-300 text-2xl"></i>
                                     </div>
-                                    <div class="p-4 space-y-1">
+                                    <div class="p-4 space-y-1.5">
                                         <h4 class="font-bold text-gray-800 text-xs truncate leading-snug">{{element.name}}</h4>
                                         <p v-if="element.price > 0" class="teal-text font-black text-xs pt-0.5">₩ {{element.price.toLocaleString()}}</p>
-                                        <p v-if="element.note" class="text-[11px] text-gray-500 pt-0.5 truncate font-medium">{{element.note}}</p>
+                                        <p v-if="element.note" class="text-[11px] text-gray-500 pt-1 truncate font-medium">{{element.note}}</p>
                                     </div>
                                     <div class="handle absolute text-gray-400 cursor-move"><i class="fas fa-bars text-[10px]"></i></div>
                                     <button @click.stop="toggleBought(element.id)" class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full flex items-center justify-center shadow-md bg-white/90" :class="element.isBought ? 'teal-theme text-white' : 'text-gray-300'"><i class="fas fa-check text-[10px]"></i></button>
@@ -225,11 +225,11 @@
                                 <div class="memo-item shadow-sm flex items-center gap-3.5">
                                     <div class="note-handle text-gray-300 cursor-move px-1"><i class="fas fa-bars text-xs"></i></div>
                                     <div @click="openNoteEdit(index)" class="flex-1 min-w-0 cursor-pointer">
-                                        <div v-if="element.imgBase64" class="mb-3.5 rounded-2xl overflow-hidden bg-gray-50 aspect-square w-full flex items-center justify-center">
+                                        <div v-if="element.imgBase64" class="mb-4 rounded-2xl overflow-hidden bg-gray-50 aspect-square w-full flex items-center justify-center">
                                             <img :src="element.imgBase64" class="w-full h-full object-cover">
                                         </div>
-                                        <p class="text-sm text-gray-700 whitespace-pre-wrap font-medium leading-relaxed py-0.5">{{element.content}}</p>
-                                        <a v-if="element.tag && element.tag.trim()" :href="element.tag" target="_blank" @click.stop class="text-xs teal-text font-bold mt-2.5 block break-all"><i class="fas fa-link mr-1"></i>{{element.tag}}</a>
+                                        <p class="text-sm text-gray-700 whitespace-pre-wrap font-medium leading-relaxed py-1">{{element.content}}</p>
+                                        <a v-if="element.tag && element.tag.trim()" :href="element.tag" target="_blank" @click.stop class="text-xs teal-text font-bold mt-3 block break-all"><i class="fas fa-link mr-1"></i>{{element.tag}}</a>
                                     </div>
                                 </div>
                             </template>
