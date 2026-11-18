@@ -355,7 +355,13 @@
                 db.ref(DATA_PATH).on('value', (s) => {
                     const data = s.val();
                     if (data) {
-                        this.itinerary = data.itinerary || {1:[], 2:[], 3:[], 4:[]};
+                        const loadedItinerary = data.itinerary || {};
+                        this.itinerary = {
+                            1: loadedItinerary[1] || [],
+                            2: loadedItinerary[2] || [],
+                            3: loadedItinerary[3] || [],
+                            4: loadedItinerary[4] || []
+                        };
                         this.bills = (data.bills || []).map(b => ({ ...b, type: b.type || 'expense' }));
                         this.shoppingList = data.shoppingList || [];
                         this.dailySummaries = data.dailySummaries || {1:'', 2:'', 3:'', 4:''};
@@ -380,9 +386,24 @@
                 },
                 toggleTransit(t) { let arr = this.getTransitArray(this.form.transitType); if(arr.includes(t)) arr = arr.filter(i => i !== t); else arr.push(t); this.form.transitType = arr.join(','); },
                 getMemberTotal(m) { return (this.bills || []).filter(b => b.payer === m && b.type === 'expense').reduce((sum, b) => sum + (Number(b.amount) || 0), 0); },
-                openAddModal() { this.isEditing = false; this.form = { time: '09:00', place: '', note: '', transitType: '', transitTime: '', transitUnit: 'm', stayTime: '', stayUnit: 'h', mapUrl: '' }; this.showModal = true; },
+                openAddModal() { 
+                    if(!this.itinerary[this.selectedDay]) this.itinerary[this.selectedDay] = [];
+                    this.isEditing = false; 
+                    this.form = { time: '09:00', place: '', note: '', transitType: '', transitTime: '', transitUnit: 'm', stayTime: '', stayUnit: 'h', mapUrl: '' }; 
+                    this.showModal = true; 
+                },
                 openEditModal(idx) { this.isEditing = true; this.editIndex = idx; this.form = {...this.itinerary[this.selectedDay][idx]}; this.showModal = true; },
-                saveForm() { if(this.isEditing) this.itinerary[this.selectedDay][this.editIndex] = {...this.form}; else this.itinerary[this.selectedDay].push({...this.form}); this.itinerary[this.selectedDay].sort((a,b) => a.time.localeCompare(b.time)); this.sync(); this.showModal = false; },
+                saveForm() { 
+                    if(!this.itinerary[this.selectedDay]) this.itinerary[this.selectedDay] = [];
+                    if(this.isEditing) {
+                        this.itinerary[this.selectedDay][this.editIndex] = {...this.form};
+                    } else {
+                        this.itinerary[this.selectedDay].push({...this.form});
+                    }
+                    this.itinerary[this.selectedDay].sort((a,b) => a.time.localeCompare(b.time)); 
+                    this.sync(); 
+                    this.showModal = false; 
+                },
                 deleteItem() { if(confirm('確定刪除？')) { this.itinerary[this.selectedDay].splice(this.editIndex, 1); this.sync(); this.showModal = false; } },
                 openBillModal() { this.isEditBill = false; this.billForm = { itemName: '', amount: '', method: '刷卡', payer: this.members[0], category: '食物', type: 'expense', note: '' }; this.showBillModal = true; },
                 editBill(idx) { this.isEditBill = true; this.editIndex = idx; this.billForm = {...this.bills[idx]}; this.showBillModal = true; },
