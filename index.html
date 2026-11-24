@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #f4f6f8; -webkit-tap-highlight-color: transparent; letter-spacing: 0.09em; line-height: 1.6; }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #f4f6f8; -webkit-tap-highlight-color: transparent; letter-spacing: 0.09em; line-height: 1.68; }
         .teal-theme { background-color: #4F637D; }
         .teal-text { color: #4F637D; }
         .active-tab { color: #4F637D !important; font-weight: bold; }
@@ -61,7 +61,7 @@
             z-index: 10;
         }
 
-        .bill-card { transition: all 0.2s; border-left: 4px solid transparent; padding: 16px; border-radius: 18px; }
+        .bill-card { transition: all 0.2s; border-left: 4px solid transparent; padding: 11px 14px; border-radius: 16px; }
         .bill-card:active { transform: scale(0.98); background: #eef2f6; }
         .bill-drag-handle { cursor: grab; }
         .bill-drag-handle:active { cursor: grabbing; }
@@ -93,13 +93,13 @@
                         <span>{{item.transitTime}}{{item.transitUnit}}</span>
                     </div>
                     <div @click="openEditModal(index)" class="card-pop border border-gray-50 flex justify-between items-start mb-4">
-                        <div class="flex-1 pr-2">
+                        <div class="flex-1 pl-1.5 pr-2">
                             <div class="flex items-center gap-2 mb-1.5">
                                 <span class="text-[12px] font-black px-2 py-0.5 bg-slate-100 teal-text rounded-md">{{item.time}}</span>
                                 <a v-if="item.mapUrl" :href="item.mapUrl" target="_blank" @click.stop class="w-7 h-7 flex items-center justify-center bg-gray-100 rounded-full text-xs teal-text"><i class="fas fa-link"></i></a>
                             </div>
-                            <h3 class="font-bold text-base mt-1.5 text-gray-800 leading-snug tracking-wider">{{item.place}}</h3>
-                            <p class="text-[13px] text-gray-500 mt-1.5 whitespace-pre-wrap leading-relaxed tracking-wider">{{item.note}}</p>
+                            <h3 class="font-bold text-base mt-1.5 text-gray-800 leading-[1.55] tracking-wider">{{item.place}}</h3>
+                            <p class="text-[13px] text-gray-500 mt-1.5 whitespace-pre-wrap leading-[1.72] tracking-wider">{{item.note}}</p>
                         </div>
                         <div v-if="item.stayTime" class="text-right flex-shrink-0 ml-2">
                             <div class="text-[10px] bg-gray-50 px-2 py-1 rounded-md text-gray-400 font-bold"><i class="far fa-clock mr-1"></i>停留 {{item.stayTime}}{{item.stayUnit}}</div>
@@ -148,10 +148,10 @@
 
                 <div class="flex justify-end px-2"><button @click="manageMembers" class="text-[10px] teal-text font-bold"><i class="fas fa-users-cog mr-1"></i>旅伴成員</button></div>
                 
-                <draggable v-model="bills" item-key="index" handle=".bill-drag-handle" @end="sync" class="space-y-3">
+                <draggable v-model="bills" item-key="index" handle=".bill-drag-handle" @end="sync" class="space-y-2">
                     <template #item="{element, index}">
-                        <div @click="editBill(index)" class="bill-card bg-white border border-gray-50 shadow-sm flex items-center gap-4">
-                            <div class="bill-drag-handle w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" 
+                        <div @click="editBill(index)" class="bill-card bg-white border border-gray-50 shadow-sm flex items-center gap-3">
+                            <div class="bill-drag-handle w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" 
                                  :class="element.type === 'income' ? 'bg-amber-50 text-amber-500' : 'bg-slate-100 teal-text'">
                                 <i :class="element.type === 'income' ? 'fas fa-hand-holding-usd' : getCategoryIcon(element.category)"></i>
                             </div>
@@ -164,10 +164,10 @@
                                             <span class="text-[10px] mr-0.5 opacity-50">{{element.method === '刷卡' ? '💳' : '💰'}}</span>
                                             {{element.type === 'income' ? '+' : '-'}} ₩{{Number(element.amount).toLocaleString()}}
                                         </p>
-                                        <p class="text-[10px] text-gray-400 font-bold mt-1">NT$ {{Math.round(element.amount * rate).toLocaleString()}}</p>
+                                        <p class="text-[10px] text-gray-400 font-bold mt-0.5">NT$ {{Math.round(element.amount * rate).toLocaleString()}}</p>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-2 mt-2">
+                                <div class="flex items-center gap-2 mt-1">
                                     <span class="text-[9px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded font-bold">{{element.payer}}</span>
                                     <p v-if="element.note" class="text-[11px] text-gray-500 truncate flex-1 font-medium">{{element.note}}</p>
                                 </div>
