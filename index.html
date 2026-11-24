@@ -95,11 +95,11 @@
                     <div @click="openEditModal(index)" class="card-pop border border-gray-50 flex justify-between items-start mb-4">
                         <div class="flex-1 pr-3">
                             <div class="flex items-center gap-2.5 mb-1.5">
-                                <span class="text-[12px] font-black px-2.5 py-1 bg-slate-100 teal-text rounded-md">{{item.time}}</span>
+                                <span class="text-[12px] font-black px-2 py-1 bg-slate-100 teal-text rounded-md">{{item.time}}</span>
                                 <a v-if="item.mapUrl" :href="item.mapUrl" target="_blank" @click.stop class="w-7 h-7 flex items-center justify-center bg-gray-100 rounded-full text-xs teal-text"><i class="fas fa-link"></i></a>
                             </div>
-                            <h3 class="font-bold text-base mt-2 text-gray-800 leading-snug tracking-wider">{{item.place}}</h3>
-                            <p class="text-[13px] text-gray-500 mt-2 whitespace-pre-wrap leading-relaxed tracking-wider">{{item.note}}</p>
+                            <h3 class="font-bold text-base mt-2 px-2 text-gray-800 leading-snug tracking-wider">{{item.place}}</h3>
+                            <p class="text-[13px] text-gray-500 mt-2 px-2 whitespace-pre-wrap leading-relaxed tracking-wider">{{item.note}}</p>
                         </div>
                         <div v-if="item.stayTime" class="text-right flex-shrink-0">
                             <div class="text-[10px] bg-gray-50 px-2.5 py-1 rounded-md text-gray-400 font-bold"><i class="far fa-clock mr-1"></i>停留 {{item.stayTime}}{{item.stayUnit}}</div>
@@ -455,12 +455,28 @@
                 },
                 exportImage() {
                     const appElement = document.getElementById('app');
+                    if (!appElement || typeof html2canvas === 'undefined') return;
+                    window.scrollTo(0, 0);
                     appElement.classList.add('export-mode');
-                    html2canvas(appElement, { useCORS: true, backgroundColor: "#f4f6f8", scale: 2, width: 375 }).then(canvas => {
+                    const captureWidth = appElement.offsetWidth || 375;
+                    html2canvas(appElement, {
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: '#f4f6f8',
+                        scale: 1.5,
+                        width: captureWidth,
+                        windowWidth: captureWidth
+                    }).then(canvas => {
+                        const dataUrl = canvas.toDataURL('image/png');
                         const link = document.createElement('a');
                         link.download = `Seoul_Day${this.selectedDay}.png`;
-                        link.href = canvas.toDataURL('image/png');
+                        link.href = dataUrl;
+                        document.body.appendChild(link);
                         link.click();
+                        document.body.removeChild(link);
+                    }).catch(() => {
+                        alert('匯出圖片失敗，請稍後再試一次');
+                    }).finally(() => {
                         appElement.classList.remove('export-mode');
                     });
                 }
